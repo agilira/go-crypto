@@ -9,4 +9,4 @@ require (
 
 require golang.org/x/sys v0.34.0 // indirect
 
-replace github.com/agilira/go-errors => ../go-errors
+//replace github.com/agilira/go-errors => ../go-errors
