@@ -1,7 +1,7 @@
 // crypto_error_paths_test.go: Test cases for error paths in cryptographic utilities.
 //
 // Copyright (c) 2025 AGILira
-// Series: an AGLIra fragment
+// Series: an AGLIra library
 // SPDX-License-Identifier: MPL-2.0
 
 package crypto_test

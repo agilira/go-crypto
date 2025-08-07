@@ -1,7 +1,7 @@
 // kdf.go: Key derivation utilities for secure key management uses Argon2id.
 //
 // Copyright (c) 2025 AGILira
-// Series: an AGLIra fragment
+// Series: an AGLIra library
 // SPDX-License-Identifier: MPL-2.0
 
 package crypto

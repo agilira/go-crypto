@@ -1,7 +1,7 @@
 // crypto_boundary_test.go: Boundary test cases for cryptographic utilities.
 //
 // Copyright (c) 2025 AGILira
-// Series: an AGLIra fragment
+// Series: an AGLIra library
 // SPDX-License-Identifier: MPL-2.0
 
 package crypto_test

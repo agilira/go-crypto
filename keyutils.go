@@ -1,7 +1,7 @@
 // keyutils.go: Key utilities for import/export, zeroization, and fingerprinting.
 //
 // Copyright (c) 2025 AGILira
-// Series: an AGLIra fragment
+// Series: an AGLIra library
 // SPDX-License-Identifier: MPL-2.0
 
 package crypto

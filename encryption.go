@@ -1,7 +1,7 @@
 // encryption.go: Encryption and decryption utilities using AES-256-GCM and other secure algorithms.
 //
 // Copyright (c) 2025 AGILira
-// Series: an AGLIra fragment
+// Series: an AGLIra library
 // SPDX-License-Identifier: MPL-2.0
 
 package crypto
