@@ -211,9 +211,9 @@ func TestZeroizeThoroughly(t *testing.T) {
 	// Test with various key contents
 	testCases := [][]byte{
 		[]byte("sensitive-data"),
-		[]byte{0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
-		[]byte{255, 255, 255, 255, 255},
-		[]byte{128, 64, 32, 16, 8, 4, 2, 1},
+		{0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
+		{255, 255, 255, 255, 255},
+		{128, 64, 32, 16, 8, 4, 2, 1},
 	}
 
 	for i, key := range testCases {
