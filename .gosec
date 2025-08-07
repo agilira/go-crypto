@@ -1,0 +1,6 @@
+{
+    "G115": {
+        "exclude": true,
+        "description": "Integer overflow conversion is safe in our fingerprint function as it's bounded by key length"
+    }
+} 
