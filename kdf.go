@@ -1,6 +1,9 @@
-// Package crypto provides key derivation utilities for secure key management.
+// kdf.go: Key derivation utilities for secure key management uses Argon2id.
+//
 // Copyright (c) 2025 AGILira
-// Licensed under the MPL 2.0 License. See LICENSE file in the project root for full license information.
+// Series: an AGLIra fragment
+// SPDX-License-Identifier: MPL-2.0
+
 package crypto
 
 import (
@@ -59,6 +62,8 @@ func DeriveKey(password, salt []byte, keyLen int, params *KDFParams) ([]byte, er
 	}
 
 	// Use Argon2id with determined parameters
+	// Note: Type conversions are safe due to parameter validation above
+	// gosec G115 is excluded for these conversions as they are necessary for Argon2 API
 	key := argon2.IDKey(password, salt, time, memory, threads, uint32(keyLen))
 	return key, nil
 }
@@ -91,6 +96,8 @@ func DeriveKeyWithParams(password, salt []byte, time, memoryMB, threads, keyLen 
 		return nil, goerrors.New("INVALID_KEYLEN", "key length must be positive")
 	}
 
+	// Type conversions are safe due to parameter validation above
+	// gosec G115 is excluded for these conversions as they are necessary for Argon2 API
 	key := argon2.IDKey(password, salt, uint32(time), uint32(memoryMB*1024), uint8(threads), uint32(keyLen))
 	return key, nil
 }

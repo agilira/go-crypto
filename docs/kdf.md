@@ -157,3 +157,7 @@ if err != nil {
 - **PBKDF2** is maintained for backward compatibility but is deprecated
 - **Argon2id** is now the recommended KDF for all new applications
 - Consider migrating existing PBKDF2 implementations to Argon2id for better security 
+
+---
+
+go-crypto • an AGILira library

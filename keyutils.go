@@ -1,6 +1,9 @@
-// Package crypto provides key utilities for import/export, zeroization, and fingerprinting.
+// keyutils.go: Key utilities for import/export, zeroization, and fingerprinting.
+//
 // Copyright (c) 2025 AGILira
-// Licensed under the MPL 2.0 License. See LICENSE file in the project root for full license information.
+// Series: an AGLIra fragment
+// SPDX-License-Identifier: MPL-2.0
+
 package crypto
 
 import (

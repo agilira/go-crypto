@@ -1,6 +1,8 @@
-// Copyright (c) 2025 AGILira
+// crypto_error_paths_test.go: Test cases for error paths in cryptographic utilities.
 //
-// Licensed under the MPL 2.0 License. See LICENSE file in the project root for full license information.
+// Copyright (c) 2025 AGILira
+// Series: an AGLIra fragment
+// SPDX-License-Identifier: MPL-2.0
 
 package crypto_test
 

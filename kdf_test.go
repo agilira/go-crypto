@@ -1,3 +1,9 @@
+// kdf_test.go: Test cases for key derivation utilities.
+//
+// Copyright (c) 2025 AGILira
+// Series: an AGLIra fragment
+// SPDX-License-Identifier: MPL-2.0
+
 package crypto_test
 
 import (
@@ -305,5 +311,46 @@ func TestDeriveKeyPBKDF2_Consistency(t *testing.T) {
 
 	if !bytes.Equal(key1, key2) {
 		t.Error("Same parameters should produce same key")
+	}
+}
+
+// TestDeriveKeyWithCustomParams tests DeriveKey with custom parameters
+func TestDeriveKeyWithCustomParams(t *testing.T) {
+	password := []byte("test-password")
+	salt := []byte("test-salt")
+
+	// Test with custom parameters
+	params := &crypto.KDFParams{
+		Time:    2,
+		Memory:  64,
+		Threads: 2,
+	}
+
+	key, err := crypto.DeriveKey(password, salt, 32, params)
+	if err != nil {
+		t.Fatalf("DeriveKey() error: %v", err)
+	}
+	if len(key) != 32 {
+		t.Errorf("Expected key length 32, got %d", len(key))
+	}
+
+	// Test with partial custom parameters (some fields zero)
+	paramsPartial := &crypto.KDFParams{
+		Time:    3,
+		Memory:  0, // Will use default
+		Threads: 0, // Will use default
+	}
+
+	key2, err := crypto.DeriveKey(password, salt, 32, paramsPartial)
+	if err != nil {
+		t.Fatalf("DeriveKey() with partial params error: %v", err)
+	}
+	if len(key2) != 32 {
+		t.Errorf("Expected key length 32, got %d", len(key2))
+	}
+
+	// Keys should be different due to different parameters
+	if bytes.Equal(key, key2) {
+		t.Error("Expected different keys for different parameters")
 	}
 }

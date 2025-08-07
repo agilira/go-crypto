@@ -1,0 +1,43 @@
+# Changelog - Version 0.9.7
+
+## Release Date
+2025-08-07
+
+## Overview
+Major test coverage improvements and thread safety validation.
+
+## #New
+- Comprehensive test coverage increased to 91.5%
+- Race condition detection tests with -race flag
+- Thread safety validation for all concurrent operations
+- Enhanced error path testing for encryption/decryption functions
+- Advanced boundary condition testing with maximum input sizes
+- Stress testing for large datasets and rapid operations
+- Integration workflow testing across all functions
+- Mocked random generation failure handling
+- Error message accuracy and consistency validation
+
+## #Updated
+- `kdf_test.go` - Enhanced with comprehensive Argon2id and PBKDF2 testing
+- `keyutils_test.go` - Extended with encoding edge cases and zeroize testing
+- `crypto_concurrent_test.go` - Expanded concurrent access testing
+- `crypto_integration_workflows_test.go` - Fixed workflow test failures
+- `crypto_boundary_test.go` - Added maximum input size and corrupted data testing
+- `crypto_stress_test.go` - Added performance and stress testing scenarios
+- README.md - Updated coverage percentage to 91.5%
+- CI workflow - Added race detection with CGO enabled
+
+## #Corrected
+- Test duplicate declarations causing compilation errors
+- Race condition in test execution (resolved by removing duplicates)
+- Empty plaintext encryption support (previously rejected)
+- Error handling for corrupted ciphertext detection
+- Key size validation error messages
+- Base64 decode error reporting accuracy
+
+## #Compatibility
+- No breaking changes to public API
+- Backward compatibility maintained
+- Thread safety verified for concurrent usage
+- No new dependencies added
+- Cross-platform support maintained (Windows, Linux, macOS)

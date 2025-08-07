@@ -68,3 +68,7 @@ if err != nil {
     }
 }
 ``` 
+
+---
+
+go-crypto • an AGILira library

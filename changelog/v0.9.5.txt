@@ -1,0 +1,36 @@
+# Changelog - Version 0.9.5
+
+## Release Date
+2025-08-07
+
+## Overview
+Comprehensive test coverage improvements and Argon2id KDF implementation.
+
+## #New
+- Argon2id key derivation function implementation
+- `crypto_error_paths_test.go` - Error path testing for encryption/decryption
+- `crypto_boundary_test.go` - Boundary condition testing with maximum input sizes
+- `crypto_integration_workflows_test.go` - Cross-function integration testing
+- `crypto_stress_test.go` - Performance and stress testing for large datasets
+- Comprehensive PBKDF2 parameter testing (1 to 100,000 iterations, 16 to 1024 bytes)
+- Concurrent access testing for key generation, nonce generation, encryption/decryption
+- Base64/hex encoding edge cases and invalid input detection
+- Mocked random generation failure handling
+- Error message validation and consistency verification
+
+## #Updated
+- `kdf_test.go` - Enhanced with comprehensive PBKDF2 testing
+- `keyutils_test.go` - Extended with encoding edge cases and zeroize testing
+- `crypto_concurrent_test.go` - Expanded concurrent access testing
+- README.md - Updated coverage percentage to 90.3%
+
+## #Corrected
+- Empty plaintext encryption support (previously rejected)
+- Error handling for corrupted ciphertext detection
+- Key size validation error messages
+- Base64 decode error reporting accuracy
+
+## #Compatibility
+- No breaking changes to public API
+- Backward compatibility maintained
+- No new dependencies added

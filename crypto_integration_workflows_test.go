@@ -1,6 +1,8 @@
-// Copyright (c) 2025 AGILira
+// crypto_integration_workflows_test.go: Integration test cases for cryptographic utilities.
 //
-// Licensed under the MPL 2.0 License. See LICENSE file in the project root for full license information.
+// Copyright (c) 2025 AGILira
+// Series: an AGLIra fragment
+// SPDX-License-Identifier: MPL-2.0
 
 package crypto_test
 

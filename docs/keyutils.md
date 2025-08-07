@@ -101,3 +101,7 @@ if err != nil {
 
 crypto.Zeroize(key)
 ``` 
+
+---
+
+go-crypto • an AGILira library
