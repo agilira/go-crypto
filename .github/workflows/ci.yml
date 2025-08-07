@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ main, develop ]
 
+permissions:
+  contents: read
+  packages: read
+  actions: read
+
 env:
   GO_VERSION: '1.24.5'
 
@@ -31,7 +36,7 @@ jobs:
 
     - name: Configure Git for private repos
       run: |
-        git config --global url."https://${{ secrets.PAT_TOKEN }}@github.com/".insteadOf "https://github.com/"
+        git config --global url."https://${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
 
     - name: Install dependencies
       run: go mod download
@@ -75,7 +80,7 @@ jobs:
 
     - name: Configure Git for private repos
       run: |
-        git config --global url."https://${{ secrets.PAT_TOKEN }}@github.com/".insteadOf "https://github.com/"
+        git config --global url."https://${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
 
     - name: Install tools
       run: |
@@ -129,7 +134,7 @@ jobs:
 
     - name: Configure Git for private repos
       run: |
-        git config --global url."https://${{ secrets.PAT_TOKEN }}@github.com/".insteadOf "https://github.com/"
+        git config --global url."https://${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
 
     - name: Build
       env:
@@ -157,7 +162,7 @@ jobs:
 
     - name: Configure Git for private repos
       run: |
-        git config --global url."https://${{ secrets.PAT_TOKEN }}@github.com/".insteadOf "https://github.com/"
+        git config --global url."https://${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
 
     - name: Install gosec
       run: go install github.com/securego/gosec/v2/cmd/gosec@latest
@@ -191,7 +196,7 @@ jobs:
 
     - name: Configure Git for private repos
       run: |
-        git config --global url."https://${{ secrets.PAT_TOKEN }}@github.com/".insteadOf "https://github.com/"
+        git config --global url."https://${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
 
     - name: Generate coverage report
       env:
