@@ -6,6 +6,7 @@ Designed for clarity, reliability, and high code quality.
 
 [![CI](https://github.com/agilira/go-crypto/actions/workflows/ci.yml/badge.svg)](https://github.com/agilira/go-crypto/actions/workflows/ci.yml)
 [![Security](https://img.shields.io/badge/Security-gosec-brightgreen)](https://github.com/agilira/go-crypto/actions/workflows/ci.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/agilira/go-crypto)](https://goreportcard.com/report/github.com/agilira/go-crypto)
 [![Coverage](https://img.shields.io/badge/coverage-91.5%25-brightgreen)](https://github.com/agilira/go-crypto/actions/workflows/ci.yml)
 
 ## Features
