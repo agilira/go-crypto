@@ -106,7 +106,7 @@ jobs:
       run: staticcheck ./...
 
     - name: Run gosec
-      run: gosec -conf .gosec ./...
+      run: gosec -exclude=G115 ./...
 
   build:
     name: Build
@@ -168,7 +168,7 @@ jobs:
       run: go install github.com/securego/gosec/v2/cmd/gosec@latest
 
     - name: Run security scan
-      run: gosec -conf .gosec -fmt=json -out=security-report.json ./...
+      run: gosec -exclude=G115 -fmt=json -out=security-report.json ./...
 
     - name: Upload security report
       uses: actions/upload-artifact@v4

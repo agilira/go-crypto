@@ -1087,7 +1087,8 @@ func TestWorkflowFailureScenariosAdvanced(t *testing.T) {
 			name: "corrupt first character",
 			corruptFunc: func(s string) string {
 				if len(s) > 0 {
-					return "X" + s[1:]
+					// Use a character that's definitely not valid base64
+					return "!" + s[1:]
 				}
 				return s
 			},
