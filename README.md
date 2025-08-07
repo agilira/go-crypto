@@ -15,7 +15,6 @@ Designed for clarity, reliability, and high code quality.
 - PBKDF2-SHA256 legacy support
 - Cryptographically secure random number generation
 - Secure memory zeroization for sensitive data
-- Comprehensive test coverage (91.5%)
 - Cross-platform support (Windows, Linux, macOS)
 
 ## Installation
