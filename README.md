@@ -1,7 +1,7 @@
 # go-crypto: Reusable AES-256-GCM cryptography library for Go.
 ### an AGILira library
 
-Originally developed for Momus, go-crypto provides secure and well-tested primitives for encryption, decryption, key and nonce management, and key fingerprinting using AES-256-GCM.
+Originally developed for Nemesis, go-crypto provides secure and well-tested primitives for encryption, decryption, key and nonce management, and key fingerprinting using AES-256-GCM.
 Designed for clarity, reliability, and high code quality.
 
 [![CI](https://github.com/agilira/go-crypto/actions/workflows/ci.yml/badge.svg)](https://github.com/agilira/go-crypto/actions/workflows/ci.yml)
