@@ -3,7 +3,7 @@ module github.com/agilira/go-crypto
 go 1.23.11
 
 require (
-	github.com/agilira/go-errors v1.0.0
+	github.com/agilira/go-errors v1.1.0
 	golang.org/x/crypto v0.41.0
 )
 
