@@ -14,24 +14,92 @@ import (
 	pbkdf2 "golang.org/x/crypto/pbkdf2"
 )
 
-// Default Argon2 parameters for key derivation
+// Default Argon2 parameters for key derivation.
+// These values provide a good balance between security and performance.
 const (
-	DefaultTime    = 3  // Number of iterations
-	DefaultMemory  = 64 // Memory usage in MB
-	DefaultThreads = 4  // Number of threads
+	// DefaultTime is the default number of iterations for Argon2id.
+	// Higher values increase security but also computation time.
+	DefaultTime = 3
+
+	// DefaultMemory is the default memory usage in MB for Argon2id.
+	// Higher values increase security against memory-based attacks.
+	DefaultMemory = 64
+
+	// DefaultThreads is the default number of threads for Argon2id.
+	// Should not exceed the number of CPU cores.
+	DefaultThreads = 4
 )
 
 // KDFParams defines custom parameters for Argon2id key derivation.
+//
 // If a field is zero, the library's secure default will be used.
+// This allows for flexible configuration while maintaining security.
+//
+// Example:
+//
+//	// Use custom parameters
+//	params := &crypto.KDFParams{
+//		Time:    4,    // 4 iterations
+//		Memory:  128,  // 128 MB memory
+//		Threads: 2,    // 2 threads
+//	}
+//	key, err := crypto.DeriveKey(password, salt, 32, params)
+//
+//	// Use secure defaults (pass nil)
+//	key, err := crypto.DeriveKey(password, salt, 32, nil)
 type KDFParams struct {
-	Time    uint32 `json:"time,omitempty"`    // Number of iterations
-	Memory  uint32 `json:"memory,omitempty"`  // Memory usage in MB
-	Threads uint8  `json:"threads,omitempty"` // Number of threads
+	// Time is the number of iterations for Argon2id.
+	// Higher values increase security but also computation time.
+	// If zero, DefaultTime is used.
+	Time uint32 `json:"time,omitempty"`
+
+	// Memory is the memory usage in MB for Argon2id.
+	// Higher values increase security against memory-based attacks.
+	// If zero, DefaultMemory is used.
+	Memory uint32 `json:"memory,omitempty"`
+
+	// Threads is the number of threads for Argon2id.
+	// Should not exceed the number of CPU cores.
+	// If zero, DefaultThreads is used.
+	Threads uint8 `json:"threads,omitempty"`
 }
 
 // DeriveKey derives a key from a password and salt using Argon2id (the recommended variant).
-// Uses secure default parameters that provide strong protection against both CPU and memory-based attacks.
-// If params is nil, secure defaults are used.
+//
+// Argon2id is the recommended variant of Argon2, providing resistance against both
+// side-channel attacks and time-memory trade-off attacks. It uses secure default
+// parameters that provide strong protection against both CPU and memory-based attacks.
+//
+// Parameters:
+//   - password: The password to derive the key from (cannot be empty)
+//   - salt: The salt to use for key derivation (cannot be empty, should be random)
+//   - keyLen: The desired length of the derived key in bytes (must be positive)
+//   - params: Custom Argon2id parameters (nil to use secure defaults)
+//
+// Returns:
+//   - The derived key as a byte slice
+//   - An error if key derivation fails
+//
+// Example:
+//
+//	password := []byte("my-secure-password")
+//	salt := []byte("random-salt-123")
+//
+//	// Use secure defaults
+//	key, err := crypto.DeriveKey(password, salt, 32, nil)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//
+//	// Use custom parameters
+//	params := &crypto.KDFParams{
+//		Time:    4,
+//		Memory:  128,
+//		Threads: 2,
+//	}
+//	key, err := crypto.DeriveKey(password, salt, 32, params)
+//
+// If params is nil, secure defaults are used (Time: 3, Memory: 64MB, Threads: 4).
 func DeriveKey(password, salt []byte, keyLen int, params *KDFParams) ([]byte, error) {
 	if len(password) == 0 {
 		return nil, goerrors.New("EMPTY_PASSWORD", "password cannot be empty")
@@ -69,12 +137,57 @@ func DeriveKey(password, salt []byte, keyLen int, params *KDFParams) ([]byte, er
 }
 
 // DeriveKeyDefault derives a key using Argon2id with secure default parameters.
+//
 // This is a convenience function for when you don't need custom parameters.
+// It's equivalent to calling DeriveKey with params set to nil.
+//
+// Parameters:
+//   - password: The password to derive the key from (cannot be empty)
+//   - salt: The salt to use for key derivation (cannot be empty, should be random)
+//   - keyLen: The desired length of the derived key in bytes (must be positive)
+//
+// Returns:
+//   - The derived key as a byte slice
+//   - An error if key derivation fails
+//
+// Example:
+//
+//	password := []byte("my-secure-password")
+//	salt := []byte("random-salt-123")
+//	key, err := crypto.DeriveKeyDefault(password, salt, 32)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
 func DeriveKeyDefault(password, salt []byte, keyLen int) ([]byte, error) {
 	return DeriveKey(password, salt, keyLen, nil)
 }
 
 // DeriveKeyWithParams derives a key from a password and salt using Argon2id with custom parameters.
+//
+// This is a legacy function that provides direct parameter control. For new code,
+// consider using DeriveKey with a KDFParams struct for better readability and maintainability.
+//
+// Parameters:
+//   - password: The password to derive the key from (cannot be empty)
+//   - salt: The salt to use for key derivation (cannot be empty, should be random)
+//   - time: The number of iterations (must be positive)
+//   - memoryMB: The memory usage in MB (must be positive)
+//   - threads: The number of threads (must be positive)
+//   - keyLen: The desired length of the derived key in bytes (must be positive)
+//
+// Returns:
+//   - The derived key as a byte slice
+//   - An error if key derivation fails
+//
+// Example:
+//
+//	password := []byte("my-secure-password")
+//	salt := []byte("random-salt-123")
+//	key, err := crypto.DeriveKeyWithParams(password, salt, 4, 128, 2, 32)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//
 // Use this function only if you need to customize the parameters for specific requirements.
 func DeriveKeyWithParams(password, salt []byte, time, memoryMB, threads, keyLen int) ([]byte, error) {
 	if len(password) == 0 {
@@ -102,8 +215,32 @@ func DeriveKeyWithParams(password, salt []byte, time, memoryMB, threads, keyLen 
 	return key, nil
 }
 
-// DeriveKeyPBKDF2 is deprecated. Use DeriveKey instead for better security.
-// This function is kept for backward compatibility but will be removed in a future version.
+// DeriveKeyPBKDF2 derives a key using PBKDF2-SHA256 (deprecated).
+//
+// This function is deprecated and kept only for backward compatibility.
+// Use DeriveKey with Argon2id instead for better security against modern attacks.
+// This function will be removed in a future version.
+//
+// Parameters:
+//   - password: The password to derive the key from (cannot be empty)
+//   - salt: The salt to use for key derivation (cannot be empty, should be random)
+//   - iterations: The number of iterations (must be positive, recommend at least 100,000)
+//   - keyLen: The desired length of the derived key in bytes (must be positive)
+//
+// Returns:
+//   - The derived key as a byte slice
+//   - An error if key derivation fails
+//
+// Example:
+//
+//	password := []byte("my-secure-password")
+//	salt := []byte("random-salt-123")
+//	key, err := crypto.DeriveKeyPBKDF2(password, salt, 100000, 32)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//
+// Deprecated: Use DeriveKey instead for better security.
 func DeriveKeyPBKDF2(password, salt []byte, iterations, keyLen int) ([]byte, error) {
 	if len(password) == 0 {
 		return nil, goerrors.New("EMPTY_PASSWORD", "password cannot be empty")

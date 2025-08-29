@@ -84,22 +84,156 @@ Securely wipes a byte slice from memory.
 ### func GetKeyFingerprint(key []byte) string
 Generates a non-cryptographic fingerprint for a key.
 
-## Usage Example
+## Usage Examples
+
+### Basic Key Management
+```go
+import (
+    "fmt"
+    "log"
+    "github.com/agilira/go-crypto"
+)
+
+// Generate a new key
+key, err := crypto.GenerateKey()
+if err != nil {
+    log.Fatal("Failed to generate key:", err)
+}
+
+// Validate the key
+err = crypto.ValidateKey(key)
+if err != nil {
+    log.Fatal("Invalid key:", err)
+}
+
+// Generate a fingerprint for identification
+fingerprint := crypto.GetKeyFingerprint(key)
+fmt.Printf("Key fingerprint: %s\n", fingerprint)
+
+// Export key in different formats
+base64Key := crypto.KeyToBase64(key)
+hexKey := crypto.KeyToHex(key)
+
+fmt.Printf("Base64 key: %s\n", base64Key)
+fmt.Printf("Hex key: %s\n", hexKey)
+
+// Import key from base64
+restoredKey, err := crypto.KeyFromBase64(base64Key)
+if err != nil {
+    log.Fatal("Failed to import key:", err)
+}
+
+// Verify the restored key matches
+if crypto.GetKeyFingerprint(restoredKey) == fingerprint {
+    fmt.Println("Key successfully restored and verified")
+}
+
+// Securely wipe sensitive data
+crypto.Zeroize(key)
+crypto.Zeroize(restoredKey)
+```
+
+### Working with Nonces
 ```go
 import "github.com/agilira/go-crypto"
 
-key, err := crypto.GenerateKey()
+// Generate a nonce for AES-GCM (12 bytes is standard)
+nonce, err := crypto.GenerateNonce(12)
 if err != nil {
-    // handle error
+    log.Fatal("Failed to generate nonce:", err)
 }
 
+fmt.Printf("Generated nonce: %d bytes\n", len(nonce))
+
+// Generate a larger nonce for other purposes
+largeNonce, err := crypto.GenerateNonce(32)
+if err != nil {
+    log.Fatal("Failed to generate large nonce:", err)
+}
+
+// Securely wipe nonces after use
+crypto.Zeroize(nonce)
+crypto.Zeroize(largeNonce)
+```
+
+### Key Import/Export with Error Handling
+```go
+import (
+    "errors"
+    "github.com/agilira/go-crypto"
+)
+
+// Export key as base64
+key, _ := crypto.GenerateKey()
 base64Key := crypto.KeyToBase64(key)
-restoredKey, err := crypto.KeyFromBase64(base64Key)
+
+// Import key with error handling
+importedKey, err := crypto.KeyFromBase64(base64Key)
 if err != nil {
-    // handle error
+    log.Fatal("Failed to import key:", err)
 }
 
+// Validate imported key
+err = crypto.ValidateKey(importedKey)
+if err != nil {
+    log.Fatal("Imported key is invalid:", err)
+}
+
+// Test hex import/export
+hexKey := crypto.KeyToHex(key)
+hexImportedKey, err := crypto.KeyFromHex(hexKey)
+if err != nil {
+    log.Fatal("Failed to import hex key:", err)
+}
+
+// Verify both methods work
+if crypto.GetKeyFingerprint(importedKey) == crypto.GetKeyFingerprint(hexImportedKey) {
+    fmt.Println("Both import methods work correctly")
+}
+
+// Clean up
 crypto.Zeroize(key)
+crypto.Zeroize(importedKey)
+crypto.Zeroize(hexImportedKey)
+```
+
+### Error Handling Examples
+```go
+import (
+    "errors"
+    "github.com/agilira/go-crypto"
+)
+
+// Test invalid nonce size
+_, err := crypto.GenerateNonce(0)
+if err != nil {
+    fmt.Println("Expected error for zero nonce size:", err)
+}
+
+// Test invalid nonce size (negative)
+_, err = crypto.GenerateNonce(-1)
+if err != nil {
+    fmt.Println("Expected error for negative nonce size:", err)
+}
+
+// Test invalid base64 key
+_, err = crypto.KeyFromBase64("invalid-base64!")
+if err != nil {
+    fmt.Println("Expected error for invalid base64:", err)
+}
+
+// Test invalid hex key
+_, err = crypto.KeyFromHex("invalid-hex!")
+if err != nil {
+    fmt.Println("Expected error for invalid hex:", err)
+}
+
+// Test invalid key size
+invalidKey := []byte("short-key")
+err = crypto.ValidateKey(invalidKey)
+if err != nil {
+    fmt.Println("Expected error for invalid key size:", err)
+}
 ``` 
 
 ---

@@ -1,10 +1,32 @@
 # API Reference
 
+## Constants
+
+### Key Size
+- `KeySize = 32` - Required key size for AES-256 encryption in bytes
+
+### Default Argon2 Parameters
+- `DefaultTime = 3` - Default number of iterations for Argon2id
+- `DefaultMemory = 64` - Default memory usage in MB for Argon2id  
+- `DefaultThreads = 4` - Default number of threads for Argon2id
+
+### Error Codes
+- `ErrCodeInvalidKey = "CRYPTO_INVALID_KEY"`
+- `ErrCodeEmptyPlain = "CRYPTO_EMPTY_PLAINTEXT"`
+- `ErrCodeCipherInit = "CRYPTO_CIPHER_INIT"`
+- `ErrCodeGCMInit = "CRYPTO_GCM_INIT"`
+- `ErrCodeNonceGen = "CRYPTO_NONCE_GEN"`
+- `ErrCodeBase64Decode = "CRYPTO_BASE64_DECODE"`
+- `ErrCodeCipherShort = "CRYPTO_CIPHERTEXT_SHORT"`
+- `ErrCodeDecrypt = "CRYPTO_DECRYPT"`
+
 ## Core Functions
 
 ### Encryption/Decryption
-- `Encrypt(plaintext string, key []byte) (string, error)` - Encrypt data with AES-256-GCM
-- `Decrypt(encryptedText string, key []byte) (string, error)` - Decrypt data with AES-256-GCM
+- `Encrypt(plaintext string, key []byte) (string, error)` - Encrypt string data with AES-256-GCM authenticated encryption (convenience wrapper)
+- `Decrypt(encryptedText string, key []byte) (string, error)` - Decrypt string data with AES-256-GCM authenticated decryption (convenience wrapper)
+- `EncryptBytes(plaintext []byte, key []byte) (string, error)` - Encrypt binary data with AES-256-GCM authenticated encryption (core function)
+- `DecryptBytes(encryptedText string, key []byte) ([]byte, error)` - Decrypt binary data with AES-256-GCM authenticated decryption (core function)
 
 ### Key Management
 - `GenerateKey() ([]byte, error)` - Generate cryptographically secure 32-byte key
@@ -18,9 +40,6 @@
 - `DeriveKeyWithParams(password, salt []byte, time, memoryMB, threads, keyLen int) ([]byte, error)` - Derive key with custom Argon2id parameters (legacy)
 - `DeriveKeyPBKDF2(password, salt []byte, iterations, keyLen int) ([]byte, error)` - Derive key using PBKDF2-SHA256 (deprecated)
 
-### Configuration
-- `KDFParams` - Struct for custom Argon2id parameters (Time, Memory, Threads)
-
 ### Key Import/Export
 - `KeyToBase64(key []byte) string` - Encode key as base64
 - `KeyFromBase64(s string) ([]byte, error)` - Decode key from base64
@@ -29,6 +48,18 @@
 
 ### Security Utilities
 - `Zeroize(b []byte)` - Securely wipe sensitive data from memory
+
+## Types
+
+### KDFParams
+Struct for custom Argon2id parameters:
+```go
+type KDFParams struct {
+    Time    uint32 `json:"time,omitempty"`    // Number of iterations
+    Memory  uint32 `json:"memory,omitempty"`  // Memory usage in MB
+    Threads uint8  `json:"threads,omitempty"` // Number of threads
+}
+```
 
 ## Error Handling
 

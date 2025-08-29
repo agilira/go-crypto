@@ -53,10 +53,30 @@ The exclusions are configured in `.gosec` file:
 {
     "exclude": ["G115"],
     "G115": {
-        "description": "Integer overflow conversion warnings for Argon2 parameters are false positives..."
+        "description": "Integer overflow conversion warnings for Argon2 parameters are false positives. These conversions are necessary for the Argon2 API and are safe due to parameter validation."
     }
 }
 ```
+
+## Security Features
+
+### Memory Protection
+- **Secure zeroization**: All sensitive data is securely wiped from memory using `Zeroize()`
+- **No key logging**: Keys are never logged or stored in plain text
+- **Minimal exposure**: Keys are only held in memory for the minimum time necessary
+- **Stack protection**: Sensitive data is cleared from stack variables
+
+### Input Validation
+- **Key size validation**: Ensures 32-byte keys for AES-256
+- **Parameter validation**: All function parameters are validated before use
+- **Range checking**: Argon2 parameters are validated for safe ranges
+- **Type safety**: Strong typing prevents common cryptographic mistakes
+
+### Error Handling
+- **No information leakage**: Error messages never contain sensitive information
+- **Consistent error types**: Standard Go errors for maximum compatibility
+- **Rich error details**: Optional integration with `github.com/agilira/go-errors`
+- **Graceful degradation**: Functions fail securely without exposing internal state
 
 ## Best Practices
 

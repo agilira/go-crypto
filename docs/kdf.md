@@ -9,6 +9,9 @@ Derives a key from a password and salt using Argon2id with optional custom param
 ### func DeriveKeyDefault(password, salt []byte, keyLen int) ([]byte, error)
 Derives a key using Argon2id with secure default parameters.
 
+### func DeriveKeyWithParams(password, salt []byte, time, memoryMB, threads, keyLen int) ([]byte, error)
+Derives a key using Argon2id with custom parameters (legacy function). For new code, consider using `DeriveKey` with a `KDFParams` struct for better readability.
+
 **Parameters:**
 - `password`: The input password as a byte slice (must not be empty)
 - `salt`: The salt as a byte slice (must not be empty)
@@ -62,6 +65,15 @@ params := &crypto.KDFParams{
     Threads: 2,   // 2 threads
 }
 key, err := crypto.DeriveKey(password, salt, 32, params)
+if err != nil {
+    // handle error
+}
+```
+
+### Using DeriveKeyWithParams (Legacy)
+```go
+// Direct parameter control (legacy function)
+key, err := crypto.DeriveKeyWithParams(password, salt, 4, 128, 2, 32)
 if err != nil {
     // handle error
 }

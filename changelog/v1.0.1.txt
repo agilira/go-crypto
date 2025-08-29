@@ -1,0 +1,39 @@
+# Changelog - Version 1.0.1
+
+## Release Date
+2025-01-27
+
+## Overview
+Minor release enhancing cryptographic flexibility with binary data support while maintaining full backward compatibility.
+
+## #New
+- **Binary Data Support**: Added `EncryptBytes` and `DecryptBytes` functions for direct binary data encryption
+- **Enhanced Flexibility**: Support for encrypting any binary data (images, files, JSON, etc.)
+- **Improved Architecture**: Core functions work with `[]byte`, convenience wrappers for strings
+
+## #Updated
+- **API Documentation**: Complete documentation for new binary data functions
+- **Test Coverage**: Increased from 91.5% to 91.8% with new function coverage
+- **Code Architecture**: Refactored string functions to use binary functions internally
+- **Documentation**: Enhanced examples showing binary vs string data handling
+
+## #Corrected
+- **Cryptographic Best Practices**: Implemented recommended approach for binary data handling
+- **API Consistency**: Maintained consistent error handling across all functions
+- **Documentation**: Updated all examples to show best practices for different data types
+
+## #Compatibility
+- **Full Backward Compatibility**: All existing code continues to work unchanged
+- **Go 1.24+**: Maintains same Go version requirements
+- **No Breaking Changes**: Existing `Encrypt`/`Decrypt` functions unchanged
+- **Thread Safe**: All new functions maintain thread safety
+
+## #Security
+- **Same Security Level**: Uses identical cryptographic primitives
+- **Enhanced Data Handling**: Better support for non-text data encryption
+- **Memory Safety**: Maintains secure memory zeroization practices
+
+## #Performance
+- **Optimized Binary Handling**: Direct `[]byte` operations without string conversions
+- **Reduced Overhead**: Eliminates unnecessary string/byte conversions for binary data
+- **Maintained Speed**: String functions maintain same performance through internal optimization
